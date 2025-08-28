@@ -1,4 +1,10 @@
-# File Processing
+<h1 align="center">📂 File Processing</h1>
+
+<p align="center">
+  <b>Powerful capabilities to prepare data for embedding generation</b>
+</p>
+
+---
 
 EmbeddingFramework includes powerful file processing capabilities to prepare data for embedding generation.
 
@@ -35,5 +41,9 @@ You can customize:
 ---
 
 ## 📚 Related
+<p align="center">
+  <a href="embedding-providers.md">Embedding Providers</a> •
+  <a href="utilities.md">Utilities</a>
+</p>
 - [Embedding Providers](embedding-providers.md)
 - [Utilities](utilities.md)

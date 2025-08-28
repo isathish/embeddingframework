@@ -1,4 +1,10 @@
-# Cloud Storage
+<h1 align="center">☁️ Cloud Storage</h1>
+
+<p align="center">
+  <b>Integrate with major cloud storage providers for storing and retrieving embeddings or related data</b>
+</p>
+
+---
 
 EmbeddingFramework supports integration with major cloud storage providers for storing and retrieving embeddings or related data.
 
@@ -56,5 +62,9 @@ The API is consistent across all storage adapters, so switching between provider
 ---
 
 ## 📚 Related
+<p align="center">
+  <a href="vector-databases.md">Vector Databases</a> •
+  <a href="embedding-providers.md">Embedding Providers</a>
+</p>
 - [Vector Databases](vector-databases.md)
 - [Embedding Providers](embedding-providers.md)

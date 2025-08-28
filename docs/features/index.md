@@ -1,4 +1,10 @@
-# Features Overview
+<h1 align="center">🌟 Features Overview</h1>
+
+<p align="center">
+  <b>Comprehensive capabilities for embeddings, vector databases, and cloud storage</b>
+</p>
+
+---
 
 EmbeddingFramework offers a **comprehensive set of features** for working with embeddings, vector databases, and cloud storage.
 
@@ -51,6 +57,13 @@ Generate embeddings from multiple providers:
 ---
 
 ## 📚 Next Steps
+<p align="center">
+  <a href="vector-databases.md">Vector Databases</a> •
+  <a href="cloud-storage.md">Cloud Storage</a> •
+  <a href="embedding-providers.md">Embedding Providers</a> •
+  <a href="file-processing.md">File Processing</a> •
+  <a href="utilities.md">Utilities</a>
+</p>
 
 - Learn more about [Vector Databases](vector-databases.md)
 - Explore [Cloud Storage](cloud-storage.md)

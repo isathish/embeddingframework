@@ -1,4 +1,10 @@
-# Utilities
+<h1 align="center">🛠 Utilities</h1>
+
+<p align="center">
+  <b>Helper functions and tools for working with embeddings, files, and APIs</b>
+</p>
+
+---
 
 EmbeddingFramework provides a set of utility functions and helpers to make working with embeddings, files, and APIs easier.
 
@@ -50,5 +56,9 @@ chunks = split_text("Long text here...", chunk_size=500, overlap=50)
 ---
 
 ## 📚 Related
+<p align="center">
+  <a href="file-processing.md">File Processing</a> •
+  <a href="embedding-providers.md">Embedding Providers</a>
+</p>
 - [File Processing](file-processing.md)
 - [Embedding Providers](embedding-providers.md)

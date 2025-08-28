@@ -1,4 +1,10 @@
-# Embedding Providers
+<h1 align="center">🧠 Embedding Providers</h1>
+
+<p align="center">
+  <b>Generate vector representations of text for semantic search, clustering, and AI applications</b>
+</p>
+
+---
 
 EmbeddingFramework supports multiple embedding providers, allowing you to generate vector representations of text for semantic search, clustering, and other AI applications.
 
@@ -31,6 +37,11 @@ To add a new provider:
 ---
 
 ## 📚 Related
+<p align="center">
+  <a href="vector-databases.md">Vector Databases</a> •
+  <a href="cloud-storage.md">Cloud Storage</a> •
+  <a href="file-processing.md">File Processing</a>
+</p>
 - [Vector Databases](vector-databases.md)
 - [Cloud Storage](cloud-storage.md)
 - [File Processing](file-processing.md)
