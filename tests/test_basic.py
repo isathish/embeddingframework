@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from embeddingframework.processors.file_processor import FileProcessor
 from embeddingframework.adapters.openai_embedding_adapter import OpenAIEmbeddingAdapter
-from embeddingframework.adapters.vector_dbs import ChromaDBAdapter
+from embeddingframework.adapters.vector_dbs import ChromaDBAdapter, MilvusAdapter
 
 @pytest.mark.asyncio
 async def test_file_processor_with_dummy_file(tmp_path):
@@ -15,7 +15,7 @@ async def test_file_processor_with_dummy_file(tmp_path):
 
     processor = FileProcessor(
         adapter=OpenAIEmbeddingAdapter(),
-        vector_db=ChromaDBAdapter()
+        vector_db=MilvusAdapter()
     )
 
     # Run the processor
