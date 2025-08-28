@@ -1,4 +1,11 @@
-# EmbeddingFramework Documentation
+<h1 align="center">📚 EmbeddingFramework Documentation</h1>
+
+<p align="center">
+  <b>Complete Guide to Installation, Configuration & Usage</b><br>
+  For embedding generation, storage, and retrieval.
+</p>
+
+---
 
 Welcome to the **EmbeddingFramework** documentation.  
 This site provides a complete guide to installing, configuring, and using the framework for embedding generation, storage, and retrieval.
@@ -6,6 +13,10 @@ This site provides a complete guide to installing, configuring, and using the fr
 ---
 
 ## 📖 Overview
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-Latest-blue" alt="Version Badge">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License Badge">
+</p>
 
 EmbeddingFramework is a **modular, extensible, and production-ready** Python framework for:
 - Generating embeddings from multiple providers.
@@ -15,7 +26,7 @@ EmbeddingFramework is a **modular, extensible, and production-ready** Python fra
 
 ---
 
-## 📦 Key Features
+## ✨ Key Features
 
 - **Multi-Vector Database Support**: ChromaDB, Milvus, Pinecone, Weaviate.
 - **Cloud Storage Integrations**: AWS S3, Google Cloud Storage, Azure Blob Storage.
@@ -25,7 +36,7 @@ EmbeddingFramework is a **modular, extensible, and production-ready** Python fra
 
 ---
 
-## 📂 Documentation Structure
+## 🗂 Documentation Structure
 
 - **Getting Started** – Installation and quick start guide.
 - **Features** – Detailed explanation of all features.
@@ -36,6 +47,12 @@ EmbeddingFramework is a **modular, extensible, and production-ready** Python fra
 ---
 
 ## 🚀 Quick Links
+<p align="center">
+  <a href="getting-started/installation.md">Installation</a> •
+  <a href="getting-started/quick-start.md">Quick Start</a> •
+  <a href="features/index.md">Features</a> •
+  <a href="examples/basic-usage.md">Examples</a>
+</p>
 
 - [Installation](getting-started/installation.md)
 - [Quick Start](getting-started/quick-start.md)
@@ -45,5 +62,10 @@ EmbeddingFramework is a **modular, extensible, and production-ready** Python fra
 ---
 
 ## 🛠 Source Code
+<p align="center">
+  <a href="https://github.com/isathish/embeddingframework">
+    <img src="https://img.shields.io/badge/GitHub-Repository-black?logo=github" alt="GitHub Repo">
+  </a>
+</p>
 
 The source code is available on [GitHub](https://github.com/isathish/embeddingframework).

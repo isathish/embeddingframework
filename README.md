@@ -1,11 +1,24 @@
-# EmbeddingFramework
+<h1 align="center">🚀 EmbeddingFramework</h1>
+
+<p align="center">
+  <b>Modular • Extensible • Production-Ready</b><br>
+  A Python framework for embeddings, vector databases, and cloud storage providers.
+</p>
+
+<p align="center">
+  <a href="https://github.com/isathish/embeddingframework/actions"><img src="https://img.shields.io/github/actions/workflow/status/isathish/embeddingframework/python-package.yml?branch=main" alt="Build Status"></a>
+  <a href="https://pypi.org/project/embeddingframework/"><img src="https://img.shields.io/pypi/v/embeddingframework" alt="PyPI Version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+</p>
+
+---
 
 A **modular, extensible, and production-ready** Python framework for working with embeddings, vector databases, and cloud storage providers.  
 Designed for **AI, NLP, and semantic search** applications, EmbeddingFramework provides a unified API to process, store, and query embeddings across multiple backends.
 
 ---
 
-## 🚀 Features
+## ✨ Features
 
 ### 🔹 **Multi-Vector Database Support**
 - **ChromaDB** – Local and persistent vector storage.
@@ -35,7 +48,7 @@ Designed for **AI, NLP, and semantic search** applications, EmbeddingFramework p
 
 ---
 
-## 📦 Installation
+## 📦 Installation & Setup
 
 ```bash
 # Basic installation
@@ -47,7 +60,7 @@ pip install embeddingframework[dev]
 
 ---
 
-## ⚡ Quick Start
+## ⚡ Quick Start Example
 
 ```python
 from embeddingframework.adapters.openai_embedding_adapter import OpenAIEmbeddingAdapter
@@ -68,7 +81,7 @@ vector_db.add_texts(["Hello world", "EmbeddingFramework is awesome!"], embedding
 
 ---
 
-## 🛠 Project Structure
+## 📂 Project Structure
 
 ```
 embeddingframework/
@@ -88,7 +101,7 @@ embeddingframework/
 
 ---
 
-## 🧪 Running Tests
+## 🧪 Testing
 
 ```bash
 pytest --maxfail=1 --disable-warnings -q
@@ -102,7 +115,7 @@ pytest --cov=embeddingframework --cov-report=term-missing
 
 ---
 
-## 🔄 CI/CD Workflow
+## 🔄 CI/CD
 
 This project includes a **GitHub Actions** workflow (`.github/workflows/python-package.yml`) for:
 - Automated testing with coverage.
@@ -113,12 +126,19 @@ This project includes a **GitHub Actions** workflow (`.github/workflows/python-p
 ---
 
 ## 📜 License
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+</p>
 
 This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 🤝 Contributing
+<p align="center">
+  Contributions, issues, and feature requests are welcome!<br>
+  Feel free to check the <a href="https://github.com/isathish/embeddingframework/issues">issues page</a>.
+</p>
 
 1. Fork the repository.
 2. Create a new branch (`feature/my-feature`).
