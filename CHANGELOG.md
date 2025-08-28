@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v1.0.3](https://github.com/isathish/embeddingframework/releases/tag/v1.0.3) - 2025-08-28
+
+<small>[Compare with v1.0.2](https://github.com/isathish/embeddingframework/compare/v1.0.2...v1.0.3)</small>
+
+### Added
+
+- Add documentation section with link and badge to README ([49e34eb](https://github.com/isathish/embeddingframework/commit/49e34eb2d2f542d45b57d642397f3fb0a53adba6) by isathish).
+
+### Fixed
+
+- Fix GitHub Pages deployment to use site/ directory for MkDocs output ([0d6522f](https://github.com/isathish/embeddingframework/commit/0d6522fd760bc09289cc8ca2c70bcebcf4e9786d) by isathish).
+
 ## [v1.0.2](https://github.com/isathish/embeddingframework/releases/tag/v1.0.2) - 2025-08-28
 
 <small>[Compare with v1.0.1](https://github.com/isathish/embeddingframework/compare/v1.0.1...v1.0.2)</small>
