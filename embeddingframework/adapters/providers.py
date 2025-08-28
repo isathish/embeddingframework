@@ -22,17 +22,34 @@ class OpenAIEmbeddingAdapter(EmbeddingAdapter):
             raise
 
 class HuggingFaceEmbeddingAdapter(EmbeddingAdapter):
-    """Adapter for HuggingFace Inference API embeddings."""
-    def __init__(self, model_url: str, api_token: str):
-        self.model_url = model_url
-        self.api_token = api_token
+    """Adapter for HuggingFace embeddings using transformers pipeline with pooling options and device management."""
+    def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2", device: str = None, pooling: str = "mean"):
+        try:
+            from transformers import AutoTokenizer, AutoModel
+            import torch
+        except ImportError as e:
+            logging.error("Transformers library is required for HuggingFaceEmbeddingAdapter. Install with `pip install transformers`.")
+            raise
+
+        self.model_name = model_name
+        self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+        self.pooling = pooling
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModel.from_pretrained(model_name).to(self.device)
+        self.torch = torch
 
     def embed(self, text: str) -> List[float]:
         try:
-            headers = {"Authorization": f"Bearer {self.api_token}"}
-            response = requests.post(self.model_url, headers=headers, json={"inputs": text})
-            response.raise_for_status()
-            return response.json()[0]
+            inputs = self.tokenizer(text, return_tensors="pt", truncation=True, padding=True).to(self.device)
+            with self.torch.no_grad():
+                outputs = self.model(**inputs)
+            if self.pooling == "mean":
+                embeddings = outputs.last_hidden_state.mean(dim=1)
+            elif self.pooling == "cls":
+                embeddings = outputs.last_hidden_state[:, 0, :]
+            else:
+                raise ValueError(f"Unsupported pooling method: {self.pooling}")
+            return embeddings.squeeze().tolist()
         except Exception as e:
             logging.error(f"HuggingFace embedding failed: {e}")
             raise

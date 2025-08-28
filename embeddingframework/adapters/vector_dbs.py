@@ -4,11 +4,11 @@ import importlib
 PineconeAdapter = None
 WeaviateAdapter = None
 
-if importlib.util.find_spec("pinecone") is not None:
-    try:
+try:
+    if importlib.util.find_spec("pinecone") is not None:
         from .pinecone_adapter import PineconeAdapter
-    except (ImportError, AttributeError):
-        PineconeAdapter = None
+except (ImportError, AttributeError):
+    PineconeAdapter = None
 
 if importlib.util.find_spec("weaviate") is not None:
     try:
@@ -16,6 +16,7 @@ if importlib.util.find_spec("weaviate") is not None:
     except ImportError:
         WeaviateAdapter = None
 from .milvus_adapter import MilvusAdapter
+from .faiss_adapter import FAISSAdapter
 import abc
 from typing import List, Any, Dict, Optional
 

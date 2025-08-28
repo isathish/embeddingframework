@@ -12,9 +12,27 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from embeddingframework.processors.file_processor import FileProcessor
 from embeddingframework.adapters.base import DummyEmbeddingAdapter
 from embeddingframework.adapters.vector_dbs import ChromaDBAdapter
-from embeddingframework.adapters.storage.s3_storage_adapter import S3StorageAdapter
-from embeddingframework.adapters.storage.gcs_storage_adapter import GCSStorageAdapter
-from embeddingframework.adapters.storage.azure_blob_storage_adapter import AzureBlobStorageAdapter
+import importlib
+
+# Conditional imports for optional dependencies
+S3StorageAdapter = None
+GCSStorageAdapter = None
+AzureBlobStorageAdapter = None
+
+try:
+    from embeddingframework.adapters.storage.s3_storage_adapter import S3StorageAdapter
+except ImportError:
+    pass
+
+try:
+    from embeddingframework.adapters.storage.gcs_storage_adapter import GCSStorageAdapter
+except ImportError:
+    pass
+
+try:
+    from embeddingframework.adapters.storage.azure_blob_storage_adapter import AzureBlobStorageAdapter
+except ImportError:
+    pass
 
 
 @pytest.mark.asyncio
@@ -33,6 +51,7 @@ async def test_file_processor_with_dummy_adapter_and_chromadb(tmp_path):
     assert mock_vector_db.add_embeddings.called
 
 
+@pytest.mark.skipif(S3StorageAdapter is None, reason="boto3 not installed")
 def test_s3_storage_adapter_upload_download(monkeypatch):
     mock_client = MagicMock()
     monkeypatch.setattr("boto3.client", lambda *args, **kwargs: mock_client)
@@ -45,6 +64,7 @@ def test_s3_storage_adapter_upload_download(monkeypatch):
     assert mock_client.download_file.called
 
 
+@pytest.mark.skipif(GCSStorageAdapter is None, reason="google-cloud-storage not installed")
 def test_gcs_storage_adapter_upload_download(monkeypatch):
     mock_client = MagicMock()
     mock_bucket = MagicMock()
@@ -61,6 +81,7 @@ def test_gcs_storage_adapter_upload_download(monkeypatch):
     assert mock_blob.download_to_filename.called
 
 
+@pytest.mark.skipif(AzureBlobStorageAdapter is None, reason="azure-storage-blob not installed")
 def test_azure_blob_storage_adapter_upload_download(monkeypatch):
     mock_service_client = MagicMock()
     mock_container_client = MagicMock()

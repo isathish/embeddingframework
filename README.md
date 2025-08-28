@@ -1,136 +1,153 @@
 # EmbeddingFramework
 
-A **modular, extensible, and production-ready** Python framework for generating embeddings, processing files, and storing them in various vector databases and cloud storage providers. Designed for **scalability**, **flexibility**, and **ease of integration** into AI-powered applications.
+A **modular, extensible, and production-ready** framework for working with embeddings, vector databases, and storage backends.  
+Designed for **AI-powered search, retrieval, and knowledge management systems**.
 
 ---
 
 ## 🚀 Features
 
-- **Multiple Vector Database Integrations**
-  - [ChromaDB](https://www.trychroma.com/)
-  - [Pinecone](https://www.pinecone.io/) *(optional)*
-  - [Weaviate](https://weaviate.io/) *(optional)*
-  - [Milvus](https://milvus.io/)
+### **Embedding Providers**
+- **OpenAI** – Seamless integration with OpenAI's embedding API.
+- **HuggingFace Transformers** – Local model inference for privacy and cost efficiency.
+- **Local Callable** – Plug in your own embedding function.
 
-- **Cloud Storage Support**
-  - Amazon S3 *(optional)*
-  - Google Cloud Storage *(optional)*
-  - Azure Blob Storage *(optional)*
+### **Vector Database Adapters**
+- **ChromaDB** – Lightweight, local-first vector DB.
+- **Pinecone** – Fully managed, scalable vector DB (optional dependency).
+- **Weaviate** – Open-source, cloud-native vector search engine.
+- **Milvus** – High-performance vector database for large-scale AI.
+- **FAISS** – Facebook AI Similarity Search for local, high-speed retrieval.
 
-- **Pluggable Embedding Providers**
-  - OpenAI Embeddings
-  - Easily extendable to other providers
+### **Storage Adapters**
+- **AWS S3** – Store and retrieve files from Amazon S3.
+- **Google Cloud Storage (GCS)** – GCP-native storage integration.
+- **Azure Blob Storage** – Microsoft Azure storage support.
 
-- **File Processing Pipeline**
-  - Preprocessing
-  - Splitting
-  - Retry logic for robustness
+### **Processing Pipeline**
+- **File Processor** – Extracts and preprocesses text from files.
+- **Async File Processor** – High-throughput, non-blocking file ingestion.
+- **Custom Splitters** – Chunk text for optimal embedding performance.
+- **Preprocessing Utilities** – Clean, normalize, and prepare text.
 
-- **Optional Dependency Handling**
-  - Gracefully degrades when optional packages are not installed
-  - Conditional imports to avoid runtime errors
-
-- **Test Coverage**
-  - Unit tests with `pytest`
-  - Mocking for external dependencies
-  - Code coverage with `pytest-cov`
+### **CLI Tool**
+- Run embedding pipelines directly from the terminal.
+- Supports **async processing** for large datasets.
+- Configurable via arguments and environment variables.
 
 ---
 
 ## 📦 Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/isathish/embeddingframework.git
-cd embeddingframework
+# Install core framework
+pip install embeddingframework
 
-# Install core dependencies
-pip install -e .
+# Install with all optional dependencies
+pip install embeddingframework[all]
 
-# Install optional dependencies as needed
-pip install pinecone-client boto3 botocore google-cloud-storage azure-storage-blob
+# Install with specific extras
+pip install embeddingframework[openai]
+pip install embeddingframework[huggingface]
+pip install embeddingframework[faiss]
+pip install embeddingframework[pinecone]
+pip install embeddingframework[weaviate]
+pip install embeddingframework[milvus]
+pip install embeddingframework[s3]
+pip install embeddingframework[gcs]
+pip install embeddingframework[azure]
 ```
 
 ---
 
-## 🛠 Usage
+## ⚡ Quick Start
 
 ```python
-from embeddingframework.adapters.vector_dbs import ChromaDBAdapter
 from embeddingframework.adapters.openai_embedding_adapter import OpenAIEmbeddingAdapter
+from embeddingframework.adapters.vector_dbs import ChromaDBAdapter
 
 # Initialize embedding provider
-embedding_provider = OpenAIEmbeddingAdapter(api_key="YOUR_OPENAI_API_KEY")
+embedder = OpenAIEmbeddingAdapter(api_key="YOUR_API_KEY")
 
-# Initialize vector DB adapter
-vector_db = ChromaDBAdapter(collection_name="my_collection")
+# Initialize vector DB
+vector_db = ChromaDBAdapter()
 
-# Generate and store embeddings
-texts = ["Hello world", "EmbeddingFramework is awesome!"]
-embeddings = embedding_provider.embed(texts)
-vector_db.add_embeddings(texts, embeddings)
+# Embed and store
+text = "EmbeddingFramework makes vector search easy!"
+embedding = embedder.embed([text])
+vector_db.add_embeddings([embedding], [text])
 ```
 
 ---
 
-## 📂 Project Structure
+## 🛠 CLI Usage
 
-```
-embeddingframework/
-├── adapters/         # Vector DB and storage adapters
-├── processors/       # File processing logic
-├── utils/            # Utility functions
-└── tests/            # Unit tests
+```bash
+embeddingframework process --input ./docs --db chromadb --provider openai --api-key $OPENAI_API_KEY
 ```
 
 ---
 
 ## 🏗 Architecture
 
-The framework follows a **modular adapter pattern**:
-
-- **Embedding Adapters**: Handle embedding generation from various providers.
-- **Vector DB Adapters**: Store and retrieve embeddings from supported databases.
-- **Storage Adapters**: Manage file storage in cloud providers.
-- **Processors**: Handle file ingestion, preprocessing, and splitting.
+```
+embeddingframework/
+├── adapters/
+│   ├── base.py
+│   ├── vector_dbs_base.py
+│   ├── chromadb_adapter.py
+│   ├── pinecone_adapter.py
+│   ├── weaviate_adapter.py
+│   ├── milvus_adapter.py
+│   ├── faiss_adapter.py
+│   ├── openai_embedding_adapter.py
+│   ├── providers.py
+│   └── storage/
+│       ├── s3_storage_adapter.py
+│       ├── gcs_storage_adapter.py
+│       └── azure_blob_storage_adapter.py
+├── processors/
+│   ├── file_processor.py
+├── utils/
+│   ├── file_utils.py
+│   ├── preprocessing.py
+│   ├── retry.py
+│   └── splitters.py
+└── tests/
+```
 
 ---
 
-## 🔌 Extending the Framework
+## 📅 Roadmap
 
-To add a new vector DB or embedding provider:
-
-1. Create a new adapter class in the appropriate `adapters/` subdirectory.
-2. Implement the required interface from `base.py`.
-3. Register your adapter in `providers.py` or the relevant factory.
+- [x] OpenAI, HuggingFace, Local embedding providers
+- [x] ChromaDB, Pinecone, Weaviate, Milvus adapters
+- [x] AWS S3, GCS, Azure storage adapters
+- [x] CLI with async processing
+- [ ] FAISS adapter
+- [ ] HuggingFace provider improvements
+- [ ] Advanced async pipeline optimizations
+- [ ] Full test coverage with mocks for optional dependencies
 
 ---
 
 ## 🧪 Testing
 
-Run all tests with coverage:
-
 ```bash
-pytest --cov=embeddingframework --cov-report=term-missing
+pytest --maxfail=1 --disable-warnings -q
 ```
 
 ---
 
-## 🗺 Roadmap
+## 🤝 Contributing
 
-- [ ] Add FAISS vector DB support
-- [ ] Add HuggingFace embedding provider
-- [ ] CLI for quick ingestion and querying
-- [ ] Async processing pipeline
+1. Fork the repo
+2. Create a feature branch
+3. Commit changes
+4. Submit a PR
 
 ---
 
 ## 📜 License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## 💡 Inspiration
-
-EmbeddingFramework was built to **simplify AI application development** by providing a unified interface for embeddings, storage, and retrieval — without locking you into a single provider.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

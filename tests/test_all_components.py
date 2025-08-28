@@ -6,9 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from embeddingframework.adapters.base import DummyEmbeddingAdapter
 from embeddingframework.adapters.vector_dbs_base import VectorDBAdapter
 from embeddingframework.adapters.vector_dbs import ChromaDBAdapter
-from embeddingframework.adapters.storage.s3_storage_adapter import S3StorageAdapter
-from embeddingframework.adapters.storage.gcs_storage_adapter import GCSStorageAdapter
-from embeddingframework.adapters.storage.azure_blob_storage_adapter import AzureBlobStorageAdapter
+from embeddingframework.adapters.storage import S3StorageAdapter, GCSStorageAdapter, AzureBlobStorageAdapter
 from embeddingframework.utils.splitters import split_file_by_type
 from embeddingframework.utils.preprocessing import preprocess_chunks
 from embeddingframework.utils.retry import retry_on_exception

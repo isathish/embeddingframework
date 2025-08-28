@@ -13,6 +13,12 @@ from embeddingframework.adapters.vector_dbs import VectorDBAdapter, ChromaDBAdap
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from embeddingframework.processors.file_processor import FileProcessor as BaseFileProcessor
+else:
+    BaseFileProcessor = object
+
 class FileProcessor:
     def __init__(self, collection=None, adapter: Optional[EmbeddingAdapter] = None, vector_db: Optional[VectorDBAdapter] = None):
         self.collection = collection
@@ -67,8 +73,15 @@ class FileProcessor:
         else:
             raise ValueError("No storage backend configured for storing embeddings.")
 
-    async def process_file(self, file_path: str, chunk_size: int, text_chunk_size: int, merge_target_size: Optional[int] = None, parallel: bool = True, min_quality_length: int = 20, bandwidth_limit: Optional[int] = None):
-        """Process a file: stream, split, merge, filter, embed, and store."""
+    async def process_file(self, file_path: str, chunk_size: int, text_chunk_size: int, merge_target_size: Optional[int] = None, parallel: bool = True, min_quality_length: int = 20, bandwidth_limit: Optional[int] = None, semaphore: Optional[asyncio.Semaphore] = None):
+        """Process a file: stream, split, merge, filter, embed, and store with optional concurrency limits."""
+        if semaphore:
+            async with semaphore:
+                return await self._process_file_internal(file_path, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit)
+        else:
+            return await self._process_file_internal(file_path, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit)
+
+    async def _process_file_internal(self, file_path: str, chunk_size: int, text_chunk_size: int, merge_target_size: Optional[int], parallel: bool, min_quality_length: int, bandwidth_limit: Optional[int]):
         mime_type, _ = mimetypes.guess_type(file_path)
         file_name = os.path.basename(file_path)
 
@@ -113,15 +126,17 @@ class FileProcessor:
 
         logging.info(f"Completed processing {file_name} with {len(text_chunks)} quality chunks.")
 
-    async def process_files(self, file_paths: List[str], chunk_size: int, text_chunk_size: int, merge_target_size: Optional[int] = None, parallel: bool = True, min_quality_length: int = 20, file_level_parallel: bool = True, bandwidth_limit: Optional[int] = None):
+    async def process_files(self, file_paths: List[str], chunk_size: int, text_chunk_size: int, merge_target_size: Optional[int] = None, parallel: bool = True, min_quality_length: int = 20, file_level_parallel: bool = True, bandwidth_limit: Optional[int] = None, max_concurrent_files: Optional[int] = None):
         """
         Process multiple files with flexible parallelism and bandwidth control:
         - file_level_parallel: process multiple files concurrently
         - parallel: process chunks within each file concurrently
         - bandwidth_limit: max bytes per second to avoid packet loss
+        - max_concurrent_files: limit number of files processed at the same time
         """
+        semaphore = asyncio.Semaphore(max_concurrent_files) if max_concurrent_files else None
         if file_level_parallel:
-            await asyncio.gather(*(self.process_file(fp, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit) for fp in file_paths))
+            await asyncio.gather(*(self.process_file(fp, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit, semaphore) for fp in file_paths))
         else:
             for fp in file_paths:
-                await self.process_file(fp, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit)
+                await self.process_file(fp, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit, semaphore)
