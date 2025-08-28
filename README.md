@@ -1,6 +1,6 @@
 # EmbeddingFramework
 
-A high-performance, asynchronous, and extensible framework for processing files, generating embeddings, and storing them in various vector databases with optional cloud storage integration.
+A high-performance, asynchronous, and extensible Python package for processing files, generating embeddings, and storing them in various vector databases with optional cloud storage integration.
 
 ## 🚀 Features
 
@@ -28,13 +28,21 @@ A high-performance, asynchronous, and extensible framework for processing files,
 - **Quality Filtering**: Remove low-quality or too-small chunks.
 - **Preprocessing**: Clean, normalize, and prepare text before embedding.
 - **Retry Mechanism**: Automatic retries on failures during embedding or storage.
+- **Packaged for PyPI**: Installable via `pip` for easy integration into your projects.
+- **Unit Testing & Coverage**: Comprehensive test suite with coverage reporting.
 
 ## 📦 Installation
 
+### From Source
 ```bash
 git clone https://github.com/isathish/embeddingframework.git
 cd embeddingframework
-pip install -r requirements.txt
+pip install -e .
+```
+
+### From PyPI (once published)
+```bash
+pip install embeddingframework
 ```
 
 ## 🛠 Usage
@@ -42,7 +50,7 @@ pip install -r requirements.txt
 ### Command-Line Interface
 
 ```bash
-python embeddingframework.py \
+embeddingframework \
   --files path/to/file1.txt path/to/file2.pdf \
   --vector-db chroma \
   --embedding-model openai \
@@ -55,6 +63,28 @@ python embeddingframework.py \
   --cloud-storage s3 \
   --bucket-name my-bucket \
   --cloud-credentials /path/to/credentials
+```
+
+### As a Python Module
+
+```python
+from embeddingframework.processors.file_processor import FileProcessor
+from embeddingframework.adapters.openai_embedding_adapter import OpenAIEmbeddingAdapter
+from embeddingframework.adapters.vector_dbs import ChromaDBAdapter
+import asyncio
+
+async def run():
+    processor = FileProcessor(
+        adapter=OpenAIEmbeddingAdapter(),
+        vector_db=ChromaDBAdapter()
+    )
+    await processor.process_files(
+        file_paths=["example.txt"],
+        chunk_size=1024*1024,
+        text_chunk_size=500
+    )
+
+asyncio.run(run())
 ```
 
 ### Arguments
@@ -94,10 +124,22 @@ embeddingframework/
 - **Add a new vector DB**: Implement `VectorDBAdapter` in `adapters/`.
 - **Add a new cloud storage**: Implement storage adapter in `adapters/storage/`.
 
-## 🧪 Testing
+## 🧪 Testing & Code Coverage
 
+Run the test suite:
 ```bash
-pytest tests/
+pytest
+```
+
+Run tests with coverage:
+```bash
+pytest --cov=embeddingframework --cov-report=term-missing
+```
+
+Generate HTML coverage report:
+```bash
+pytest --cov=embeddingframework --cov-report=html
+open htmlcov/index.html
 ```
 
 ## 📜 License
@@ -110,7 +152,5 @@ This project is licensed under the [MIT License](LICENSE).
 2. **Select Vector DB**: Choose from supported DBs or add a new one.
 3. **Process Files**: Stream, split, merge, filter, preprocess, embed, and store.
 4. **Store in Cloud** *(optional)*: Save processed files or embeddings to cloud storage.
-
----
 
 
