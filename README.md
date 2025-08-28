@@ -164,3 +164,135 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - **Extensible** – Add new adapters with minimal effort.
 - **Production-Ready** – Built with scalability and reliability in mind.
 - **Developer-Friendly** – Clean, modular, and well-documented codebase.
+
+---
+
+## 📖 Full Documentation Overview
+
+Below is a comprehensive, end-to-end guide covering all features, usage patterns, and advanced configurations of **EmbeddingFramework**.
+
+### 1️⃣ Introduction
+EmbeddingFramework is designed to simplify the integration of embeddings, vector databases, and cloud storage into AI-powered applications. It provides:
+- A **unified API** for multiple backends.
+- **Extensible architecture** for adding new providers.
+- **Production-ready** reliability with retries, error handling, and modular design.
+
+---
+
+### 2️⃣ Installation
+```bash
+pip install embeddingframework
+pip install embeddingframework[dev]  # For development
+```
+
+---
+
+### 3️⃣ Supported Vector Databases
+| Database | Type | Key Features |
+|----------|------|--------------|
+| **ChromaDB** | Local | Persistent storage, lightweight |
+| **Milvus** | Distributed | High-performance, scalable |
+| **Pinecone** | Managed | Fully hosted, easy to scale |
+| **Weaviate** | Open-source | Semantic search, hybrid queries |
+
+---
+
+### 4️⃣ Cloud Storage Integrations
+EmbeddingFramework supports:
+- **AWS S3**
+- **Google Cloud Storage**
+- **Azure Blob Storage**
+
+Example:
+```python
+from embeddingframework.adapters.storage.s3_storage_adapter import S3StorageAdapter
+storage = S3StorageAdapter(bucket_name="my-bucket")
+storage.upload_file("local.txt", "remote.txt")
+```
+
+---
+
+### 5️⃣ Embedding Providers
+Currently supported:
+- **OpenAI Embeddings**
+- Easily extendable to HuggingFace, Cohere, etc.
+
+Example:
+```python
+from embeddingframework.adapters.openai_embedding_adapter import OpenAIEmbeddingAdapter
+provider = OpenAIEmbeddingAdapter(api_key="YOUR_KEY")
+embeddings = provider.embed_texts(["Hello", "World"])
+```
+
+---
+
+### 6️⃣ File Processing
+- Automatic file type detection
+- Text extraction from PDF, DOCX, TXT
+- Preprocessing utilities for cleaning text
+- Intelligent text splitting
+
+Example:
+```python
+from embeddingframework.processors.file_processor import FileProcessor
+processor = FileProcessor()
+text = processor.process_file("document.pdf")
+```
+
+---
+
+### 7️⃣ Utilities
+- Retry logic
+- File utilities
+- Preprocessing helpers
+
+---
+
+### 8️⃣ CLI Usage
+EmbeddingFramework includes a CLI:
+```bash
+embeddingframework --help
+```
+
+---
+
+### 9️⃣ Advanced Configurations
+- Custom vector DB adapters
+- Custom embedding providers
+- Batch processing
+- Async support
+
+---
+
+### 🔟 End-to-End Example
+```python
+from embeddingframework.adapters.openai_embedding_adapter import OpenAIEmbeddingAdapter
+from embeddingframework.adapters.vector_dbs import ChromaDBAdapter
+
+provider = OpenAIEmbeddingAdapter(api_key="KEY")
+db = ChromaDBAdapter(persist_directory="./store")
+
+texts = ["AI is amazing", "EmbeddingFramework is powerful"]
+embeddings = provider.embed_texts(texts)
+db.add_texts(texts, embeddings)
+```
+
+---
+
+## 📊 Feature Matrix
+| Feature | Supported |
+|---------|-----------|
+| Multi-DB Support | ✅ |
+| Cloud Storage | ✅ |
+| File Processing | ✅ |
+| Retry Logic | ✅ |
+| CLI | ✅ |
+| Async | ✅ |
+
+---
+
+## 📚 Learn More
+For the full documentation, visit:  
+👉 **[EmbeddingFramework Docs](https://isathish.github.io/embeddingframework/)**
+
+---
