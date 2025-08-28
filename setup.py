@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="embeddingframework",
-    version="1.0.4",
+    version="1.0.5",
     author="SathishKumar Nagarajan",
     author_email="mail@sathishkumarnagarajan.com",
     description="A high-performance, asynchronous, and extensible Python package for processing files, generating embeddings, and storing them in various vector databases with optional cloud storage integration.",
