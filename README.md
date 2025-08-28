@@ -13,6 +13,16 @@
 
 ---
 
+## 📚 Documentation
+
+<p align="center">
+  <a href="https://isathish.github.io/embeddingframework/">
+    <img src="https://img.shields.io/badge/View%20Full%20Documentation-Click%20Here-blue?style=for-the-badge&logo=readthedocs" alt="Documentation">
+  </a>
+</p>
+
+---
+
 A **modular, extensible, and production-ready** Python framework for working with embeddings, vector databases, and cloud storage providers.  
 Designed for **AI, NLP, and semantic search** applications, EmbeddingFramework provides a unified API to process, store, and query embeddings across multiple backends.
 
