@@ -17,6 +17,7 @@ for module_name, dependency in optional_adapters.items():
         import_module(dependency)
         import_module(f".{module_name}", package=__name__)
         __all__.append(module_name)
+        globals()[module_name] = getattr(import_module(f".{module_name}", package=__name__), module_name.split("_adapter")[0].capitalize() + "Adapter")
     except ImportError:
         # Dependency not installed, skip adapter
         globals()[module_name] = None

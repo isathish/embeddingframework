@@ -1,61 +1,48 @@
 # EmbeddingFramework
 
-A **modular, extensible, and production-ready** framework for working with embeddings, vector databases, and storage backends.  
-Designed for **AI-powered search, retrieval, and knowledge management systems**.
+A **modular, extensible, and production-ready** Python framework for working with embeddings, vector databases, and cloud storage providers.  
+Designed for **AI, NLP, and semantic search** applications, EmbeddingFramework provides a unified API to process, store, and query embeddings across multiple backends.
 
 ---
 
 ## 🚀 Features
 
-### **Embedding Providers**
-- **OpenAI** – Seamless integration with OpenAI's embedding API.
-- **HuggingFace Transformers** – Local model inference for privacy and cost efficiency.
-- **Local Callable** – Plug in your own embedding function.
+### 🔹 **Multi-Vector Database Support**
+- **ChromaDB** – Local and persistent vector storage.
+- **Milvus** – High-performance distributed vector database.
+- **Pinecone** – Fully managed vector database service.
+- **Weaviate** – Open-source vector search engine.
 
-### **Vector Database Adapters**
-- **ChromaDB** – Lightweight, local-first vector DB.
-- **Pinecone** – Fully managed, scalable vector DB (optional dependency).
-- **Weaviate** – Open-source, cloud-native vector search engine.
-- **Milvus** – High-performance vector database for large-scale AI.
-- **FAISS** – Facebook AI Similarity Search for local, high-speed retrieval.
+### 🔹 **Cloud Storage Integrations**
+- **AWS S3** – Store and retrieve embeddings or documents.
+- **Google Cloud Storage (GCS)** – Scalable object storage.
+- **Azure Blob Storage** – Enterprise-grade cloud storage.
 
-### **Storage Adapters**
-- **AWS S3** – Store and retrieve files from Amazon S3.
-- **Google Cloud Storage (GCS)** – GCP-native storage integration.
-- **Azure Blob Storage** – Microsoft Azure storage support.
+### 🔹 **Embedding Providers**
+- **OpenAI Embeddings** – State-of-the-art embedding generation.
+- Easily extendable to other providers.
 
-### **Processing Pipeline**
-- **File Processor** – Extracts and preprocesses text from files.
-- **Async File Processor** – High-throughput, non-blocking file ingestion.
-- **Custom Splitters** – Chunk text for optimal embedding performance.
-- **Preprocessing Utilities** – Clean, normalize, and prepare text.
+### 🔹 **File Processing & Preprocessing**
+- Automatic file type detection.
+- Text extraction from multiple formats.
+- Preprocessing utilities for cleaning and normalizing text.
+- Intelligent text splitting for optimal embedding performance.
 
-### **CLI Tool**
-- Run embedding pipelines directly from the terminal.
-- Supports **async processing** for large datasets.
-- Configurable via arguments and environment variables.
+### 🔹 **Utilities**
+- Retry logic for robust API calls.
+- File utilities for safe and efficient I/O.
+- Modular architecture for easy extension.
 
 ---
 
 ## 📦 Installation
 
 ```bash
-# Install core framework
+# Basic installation
 pip install embeddingframework
 
-# Install with all optional dependencies
-pip install embeddingframework[all]
-
-# Install with specific extras
-pip install embeddingframework[openai]
-pip install embeddingframework[huggingface]
-pip install embeddingframework[faiss]
-pip install embeddingframework[pinecone]
-pip install embeddingframework[weaviate]
-pip install embeddingframework[milvus]
-pip install embeddingframework[s3]
-pip install embeddingframework[gcs]
-pip install embeddingframework[azure]
+# With development dependencies
+pip install embeddingframework[dev]
 ```
 
 ---
@@ -67,87 +54,83 @@ from embeddingframework.adapters.openai_embedding_adapter import OpenAIEmbedding
 from embeddingframework.adapters.vector_dbs import ChromaDBAdapter
 
 # Initialize embedding provider
-embedder = OpenAIEmbeddingAdapter(api_key="YOUR_API_KEY")
+embedding_provider = OpenAIEmbeddingAdapter(api_key="YOUR_OPENAI_API_KEY")
 
-# Initialize vector DB
-vector_db = ChromaDBAdapter()
+# Initialize vector database
+vector_db = ChromaDBAdapter(persist_directory="./chroma_store")
 
-# Embed and store
-text = "EmbeddingFramework makes vector search easy!"
-embedding = embedder.embed([text])
-vector_db.add_embeddings([embedding], [text])
+# Generate embeddings
+embeddings = embedding_provider.embed_texts(["Hello world", "EmbeddingFramework is awesome!"])
+
+# Store embeddings
+vector_db.add_texts(["Hello world", "EmbeddingFramework is awesome!"], embeddings)
 ```
 
 ---
 
-## 🛠 CLI Usage
-
-```bash
-embeddingframework process --input ./docs --db chromadb --provider openai --api-key $OPENAI_API_KEY
-```
-
----
-
-## 🏗 Architecture
+## 🛠 Project Structure
 
 ```
 embeddingframework/
-├── adapters/
+│
+├── adapters/                # Vector DB & storage adapters
 │   ├── base.py
-│   ├── vector_dbs_base.py
 │   ├── chromadb_adapter.py
+│   ├── milvus_adapter.py
 │   ├── pinecone_adapter.py
 │   ├── weaviate_adapter.py
-│   ├── milvus_adapter.py
-│   ├── faiss_adapter.py
-│   ├── openai_embedding_adapter.py
-│   ├── providers.py
-│   └── storage/
-│       ├── s3_storage_adapter.py
-│       ├── gcs_storage_adapter.py
-│       └── azure_blob_storage_adapter.py
-├── processors/
-│   ├── file_processor.py
-├── utils/
-│   ├── file_utils.py
-│   ├── preprocessing.py
-│   ├── retry.py
-│   └── splitters.py
-└── tests/
+│   ├── storage/             # Cloud storage adapters
+│
+├── processors/              # File processing logic
+├── utils/                    # Helper utilities
+└── tests/                    # Test suite
 ```
 
 ---
 
-## 📅 Roadmap
-
-- [x] OpenAI, HuggingFace, Local embedding providers
-- [x] ChromaDB, Pinecone, Weaviate, Milvus adapters
-- [x] AWS S3, GCS, Azure storage adapters
-- [x] CLI with async processing
-- [ ] FAISS adapter
-- [ ] HuggingFace provider improvements
-- [ ] Advanced async pipeline optimizations
-- [ ] Full test coverage with mocks for optional dependencies
-
----
-
-## 🧪 Testing
+## 🧪 Running Tests
 
 ```bash
 pytest --maxfail=1 --disable-warnings -q
 ```
 
+With coverage:
+
+```bash
+pytest --cov=embeddingframework --cov-report=term-missing
+```
+
 ---
 
-## 🤝 Contributing
+## 🔄 CI/CD Workflow
 
-1. Fork the repo
-2. Create a feature branch
-3. Commit changes
-4. Submit a PR
+This project includes a **GitHub Actions** workflow (`.github/workflows/python-package.yml`) for:
+- Automated testing with coverage.
+- Version bumping & changelog generation.
+- PyPI publishing.
+- GitHub release creation.
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository.
+2. Create a new branch (`feature/my-feature`).
+3. Commit your changes.
+4. Push to your branch.
+5. Open a Pull Request.
+
+---
+
+## 🌟 Why EmbeddingFramework?
+
+- **Unified API** – Work with multiple vector DBs and storage providers seamlessly.
+- **Extensible** – Add new adapters with minimal effort.
+- **Production-Ready** – Built with scalability and reliability in mind.
+- **Developer-Friendly** – Clean, modular, and well-documented codebase.
