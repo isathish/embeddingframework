@@ -58,9 +58,67 @@ print(results)
 
 ---
 
+## 📊 Example Output
+
+**Input File:** `sample.pdf` (contains "Artificial Intelligence is transforming the world.")
+
+**Extracted Text:**
+```
+Artificial Intelligence is transforming the world.
+```
+
+**Generated Embedding (example):**
+```python
+[0.2345, -0.1234, 0.9876, ...]
+```
+
+**Query:**
+```python
+results = vector_db.query("AI transformation", top_k=2)
+```
+
+**Output:**
+```python
+[
+  {"text": "Artificial Intelligence is transforming the world.", "score": 0.98},
+  {"text": "AI is changing industries rapidly.", "score": 0.92}
+]
+```
+
+---
+
+## 🧩 Additional Examples
+
+### Example 1: Batch Processing Multiple Files
+```python
+files = ["doc1.pdf", "doc2.txt"]
+texts = [processor.process_file(f) for f in files]
+embeddings = embedding_provider.embed_texts(texts)
+vector_db.add_texts(texts, embeddings)
+```
+
+### Example 2: Using Metadata in Queries
+```python
+results = vector_db.query("AI", top_k=3, filter={"source": "doc1.pdf"})
+```
+
+### Example 3: Async Embedding Generation
+```python
+import asyncio
+
+async def main():
+    embeddings = await embedding_provider.aembed_texts(["Async example"])
+    print(embeddings)
+
+asyncio.run(main())
+```
+
+---
+
 ## ✅ Summary
 You have successfully:
 - Processed a file
 - Generated embeddings
 - Stored them in a distributed vector database
 - Queried the database for semantic search
+- Used batch processing, metadata filtering, and async embedding generation
