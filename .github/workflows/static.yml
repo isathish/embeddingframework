@@ -47,14 +47,14 @@ jobs:
 
       - name: Build MkDocs site
         run: |
-          mkdocs build --clean
-          test -f site/index.html || (echo "Error: index.html not found in site/. Ensure docs/index.md exists and MkDocs is configured correctly." && exit 1)
+          mkdocs build --clean --site-dir .
+          test -f index.html || (echo "Error: index.html not found in root. Ensure docs/index.md exists and MkDocs is configured correctly." && exit 1)
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload generated site
-          path: 'site'
+          path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
