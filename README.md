@@ -1,96 +1,98 @@
 # EmbeddingFramework
 
-A **modular, extensible, and production-ready** Python framework for generating, processing, and storing embeddings across multiple vector databases and cloud storage providers.
+A **modular, extensible, and production-ready** Python framework for generating embeddings, processing files, and storing them in various vector databases and cloud storage providers. Designed for **scalability**, **flexibility**, and **ease of integration** into AI-powered applications.
 
 ---
 
 ## 🚀 Features
 
-- **Multi-Vector DB Support**  
-  - [ChromaDB](https://www.trychroma.com/)  
-  - [Milvus](https://milvus.io/)  
-  - [Pinecone](https://www.pinecone.io/)  
-  - [Weaviate](https://weaviate.io/)  
+- **Multiple Vector Database Integrations**
+  - [ChromaDB](https://www.trychroma.com/)
+  - [Pinecone](https://www.pinecone.io/) *(optional)*
+  - [Weaviate](https://weaviate.io/) *(optional)*
+  - [Milvus](https://milvus.io/)
 
-- **Multiple Embedding Providers**  
-  - OpenAI Embeddings  
+- **Cloud Storage Support**
+  - Amazon S3 *(optional)*
+  - Google Cloud Storage *(optional)*
+  - Azure Blob Storage *(optional)*
+
+- **Pluggable Embedding Providers**
+  - OpenAI Embeddings
   - Easily extendable to other providers
 
-- **Cloud Storage Integrations**  
-  - AWS S3  
-  - Google Cloud Storage (GCS)  
-  - Azure Blob Storage  
+- **File Processing Pipeline**
+  - Preprocessing
+  - Splitting
+  - Retry logic for robustness
 
-- **File Processing Pipeline**  
-  - Async file reading and processing  
-  - Preprocessing utilities (cleaning, normalization, splitting)  
-  - Customizable splitters for large documents  
+- **Optional Dependency Handling**
+  - Gracefully degrades when optional packages are not installed
+  - Conditional imports to avoid runtime errors
 
-- **Robust Utilities**  
-  - Retry logic for transient failures  
-  - File utilities for safe I/O  
-  - Modular adapter-based architecture
-
-- **Testing & Quality**  
-  - 100% unit test coverage target  
-  - `pytest` + `pytest-cov` integration  
-  - Mocking/stubbing for external dependencies
+- **Test Coverage**
+  - Unit tests with `pytest`
+  - Mocking for external dependencies
+  - Code coverage with `pytest-cov`
 
 ---
 
 ## 📦 Installation
 
 ```bash
-pip install embeddingframework
-```
-
-Or from source:
-
-```bash
+# Clone the repository
 git clone https://github.com/isathish/embeddingframework.git
 cd embeddingframework
+
+# Install core dependencies
 pip install -e .
+
+# Install optional dependencies as needed
+pip install pinecone-client boto3 botocore google-cloud-storage azure-storage-blob
 ```
 
 ---
 
 ## 🛠 Usage
 
-### Basic Example
-
 ```python
-from embeddingframework.processors.file_processor import FileProcessor
+from embeddingframework.adapters.vector_dbs import ChromaDBAdapter
 from embeddingframework.adapters.openai_embedding_adapter import OpenAIEmbeddingAdapter
-from embeddingframework.adapters.milvus_adapter import MilvusAdapter
 
 # Initialize embedding provider
-embedding_adapter = OpenAIEmbeddingAdapter(api_key="YOUR_OPENAI_KEY")
+embedding_provider = OpenAIEmbeddingAdapter(api_key="YOUR_OPENAI_API_KEY")
 
-# Initialize vector DB
-vector_db = MilvusAdapter(host="localhost", port="19530")
+# Initialize vector DB adapter
+vector_db = ChromaDBAdapter(collection_name="my_collection")
 
-# Create file processor
-processor = FileProcessor(embedding_adapter, vector_db)
+# Generate and store embeddings
+texts = ["Hello world", "EmbeddingFramework is awesome!"]
+embeddings = embedding_provider.embed(texts)
+vector_db.add_embeddings(texts, embeddings)
+```
 
-# Process a file
-await processor.process_file("sample.txt")
+---
+
+## 📂 Project Structure
+
+```
+embeddingframework/
+├── adapters/         # Vector DB and storage adapters
+├── processors/       # File processing logic
+├── utils/            # Utility functions
+└── tests/            # Unit tests
 ```
 
 ---
 
 ## 🏗 Architecture
 
-```
-embeddingframework/
-├── adapters/         # Embedding & Vector DB adapters
-├── processors/       # File processing logic
-├── utils/            # Helper utilities
-└── tests/            # Unit tests
-```
+The framework follows a **modular adapter pattern**:
 
-- **Adapters**: Abstract integrations for embeddings, vector DBs, and storage.
-- **Processors**: Orchestrate reading, preprocessing, embedding, and storing.
-- **Utils**: Common helper functions and retry logic.
+- **Embedding Adapters**: Handle embedding generation from various providers.
+- **Vector DB Adapters**: Store and retrieve embeddings from supported databases.
+- **Storage Adapters**: Manage file storage in cloud providers.
+- **Processors**: Handle file ingestion, preprocessing, and splitting.
 
 ---
 
@@ -98,22 +100,15 @@ embeddingframework/
 
 To add a new vector DB or embedding provider:
 
-1. Create a new adapter in `embeddingframework/adapters/`.
-2. Implement the required base class methods.
-3. Register it in `providers.py` if needed.
-4. Add unit tests in `tests/`.
+1. Create a new adapter class in the appropriate `adapters/` subdirectory.
+2. Implement the required interface from `base.py`.
+3. Register your adapter in `providers.py` or the relevant factory.
 
 ---
 
 ## 🧪 Testing
 
-Run all tests:
-
-```bash
-pytest
-```
-
-Run with coverage:
+Run all tests with coverage:
 
 ```bash
 pytest --cov=embeddingframework --cov-report=term-missing
@@ -121,30 +116,21 @@ pytest --cov=embeddingframework --cov-report=term-missing
 
 ---
 
-## 📈 Roadmap
+## 🗺 Roadmap
 
-- [ ] Add more embedding providers (Cohere, HuggingFace)
-- [ ] Add streaming ingestion
-- [ ] Add CLI interface
-- [ ] Improve async performance
+- [ ] Add FAISS vector DB support
+- [ ] Add HuggingFace embedding provider
+- [ ] CLI for quick ingestion and querying
+- [ ] Async processing pipeline
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 💡 Contributing
+## 💡 Inspiration
 
-Contributions are welcome! Please fork the repo and submit a PR.
-
----
-
-## 🌟 Why EmbeddingFramework?
-
-- **Production-ready**: Built with scalability and reliability in mind.
-- **Extensible**: Easily add new providers and databases.
-- **Tested**: Comprehensive unit test coverage.
-- **Async-first**: Optimized for modern Python async workflows.
+EmbeddingFramework was built to **simplify AI application development** by providing a unified interface for embeddings, storage, and retrieval — without locking you into a single provider.

@@ -1,9 +1,25 @@
 import os
 import logging
-import boto3
-from botocore.exceptions import NoCredentialsError
-from google.cloud import storage as gcs_storage
-from azure.storage.blob import BlobServiceClient
+import importlib
+
+if importlib.util.find_spec("boto3") is None:
+    boto3 = None
+else:
+    import boto3
+try:
+    from botocore.exceptions import NoCredentialsError
+except ImportError:
+    NoCredentialsError = None
+
+try:
+    from google.cloud import storage as gcs_storage
+except ImportError:
+    gcs_storage = None
+
+try:
+    from azure.storage.blob import BlobServiceClient
+except ImportError:
+    BlobServiceClient = None
 from typing import List
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
