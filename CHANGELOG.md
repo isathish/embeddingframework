@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v1.0.2](https://github.com/isathish/embeddingframework/releases/tag/v1.0.2) - 2025-08-28
+
+<small>[Compare with v1.0.1](https://github.com/isathish/embeddingframework/compare/v1.0.1...v1.0.2)</small>
+
 ## [v1.0.1](https://github.com/isathish/embeddingframework/releases/tag/v1.0.1) - 2025-08-28
 
 <small>[Compare with first commit](https://github.com/isathish/embeddingframework/compare/d93827b6de1b8c30e720994311c8cc5726f8ce21...v1.0.1)</small>
