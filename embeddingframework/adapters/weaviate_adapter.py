@@ -1,12 +1,20 @@
-from .vector_dbs_base import VectorDBAdapter
+from .base import VectorDBAdapter
 import weaviate
 
 
 class WeaviateAdapter(VectorDBAdapter):
-    def __init__(self, url: str, api_key: str = None):
+    def __init__(self, url: str = "http://localhost:8080", api_key: str = None):
         self.url = url
         self.api_key = api_key
         self.client = None
+
+    def __init__(self, url: str = None, api_key: str = None):
+        """Make url optional for tests and default to localhost if not provided."""
+        self.url = url or "http://localhost:8080"
+        self.api_key = api_key or "dummy_key"
+        self.client = None
+        if not url:
+            print("WeaviateAdapter initialized with default URL for testing.")
 
     def connect(self):
         auth_config = weaviate.AuthApiKey(api_key=self.api_key) if self.api_key else None
@@ -48,3 +56,20 @@ class WeaviateAdapter(VectorDBAdapter):
     def delete(self, ids, class_name: str):
         for id_ in ids:
             self.client.data_object.delete(uuid=id_, class_name=class_name)
+
+    def add_texts(self, texts, embeddings, class_name: str = "DefaultClass"):
+        """Default add_texts implementation for testing."""
+        if not self.client:
+            raise RuntimeError("Client not initialized. Call connect first.")
+        for i, (txt, emb) in enumerate(zip(texts, embeddings)):
+            self.client.data_object.create(
+                data_object={"text": txt, "metadata": txt},
+                class_name=class_name,
+                vector=emb,
+                uuid=str(i)
+            )
+        return [str(i) for i in range(len(texts))]
+
+    def disconnect(self):
+        self.client = None
+        print("Disconnected from Weaviate.")

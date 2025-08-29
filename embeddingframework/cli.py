@@ -51,7 +51,7 @@ async def query(args):
     logging.info(f"Query results: {results}")
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description="EmbeddingFramework CLI")
     subparsers = parser.add_subparsers(dest="command")
 
@@ -77,7 +77,7 @@ def main():
     query_parser.add_argument("--top_k", type=int, default=5)
     query_parser.set_defaults(func=query)
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if hasattr(args, "func"):
         asyncio.run(args.func(args))
     else:

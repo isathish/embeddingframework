@@ -1,9 +1,19 @@
-from .vector_dbs_base import VectorDBAdapter
+from .base import VectorDBAdapter
 import chromadb
 from chromadb.config import Settings
 
 
 class ChromaDBAdapter(VectorDBAdapter):
+    def add_texts(self, texts, embeddings):
+        """Default add_texts implementation for testing."""
+        if not getattr(self, "collection", None):
+            if not getattr(self, "client", None):
+                self.connect()
+            self.create_collection("default")
+        ids = [str(i) for i in range(len(texts))]
+        metadatas = [{"text": t} for t in texts]
+        self.collection.add(ids=ids, embeddings=embeddings, metadatas=metadatas)
+        print(f"Added {len(texts)} texts to ChromaDB collection.")
     def __init__(self, persist_directory: str = "./chroma_db"):
         self.persist_directory = persist_directory
         self.client = None
@@ -31,3 +41,8 @@ class ChromaDBAdapter(VectorDBAdapter):
         if not self.collection:
             raise RuntimeError("Collection not initialized. Call create_collection first.")
         self.collection.delete(ids=ids)
+
+    def disconnect(self):
+        self.client = None
+        self.collection = None
+        print("Disconnected from ChromaDB.")

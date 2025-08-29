@@ -21,6 +21,21 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://isathish.github.io/embeddingframework/">
+    <img src="https://img.shields.io/badge/📖%20Read%20the%20Docs%20with%20Rich%20UI-Visit%20Now-purple?style=for-the-badge&logo=materialdesign" alt="Rich UI Docs">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://isathish.github.io/embeddingframework/">
+    <img src="https://img.shields.io/badge/Explore%20Features-Now-green?style=for-the-badge&logo=python" alt="Explore Features">
+  </a>
+  <a href="https://isathish.github.io/embeddingframework/">
+    <img src="https://img.shields.io/badge/API%20Reference-Available-orange?style=for-the-badge&logo=swagger" alt="API Reference">
+  </a>
+</p>
+
 ---
 
 A **modular, extensible, and production-ready** Python framework for working with embeddings, vector databases, and cloud storage providers.  

@@ -5,6 +5,17 @@ import logging
 
 from embeddingframework.adapters.base import EmbeddingAdapter
 
+# Registry for embedding providers
+_provider_registry = {}
+
+def register_provider(name: str, provider_cls):
+    """Register a provider class by name."""
+    _provider_registry[name] = provider_cls
+
+def get_provider(name: str):
+    """Retrieve a registered provider class by name."""
+    return _provider_registry.get(name)
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
 class OpenAIEmbeddingAdapter(EmbeddingAdapter):

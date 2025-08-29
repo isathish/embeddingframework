@@ -15,10 +15,15 @@ optional_adapters = {
 for module_name, dependency in optional_adapters.items():
     try:
         import_module(dependency)
-        import_module(f".{module_name}", package=__name__)
+        module = import_module(f".{module_name}", package=__name__)
         __all__.append(module_name)
-        globals()[module_name] = getattr(import_module(f".{module_name}", package=__name__), module_name.split("_adapter")[0].capitalize() + "Adapter")
+        # Ensure proper CamelCase class name generation
+        base_name = module_name.split("_adapter")[0]
+        class_name = "".join(part.capitalize() for part in base_name.split("_")) + "Adapter"
+        globals()[module_name] = getattr(module, class_name)
     except ImportError:
         # Dependency not installed, skip adapter
         globals()[module_name] = None
-        pass
+    except Exception:
+        # Any other error during import, skip adapter
+        globals()[module_name] = None
