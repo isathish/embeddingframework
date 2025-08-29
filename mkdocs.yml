@@ -34,7 +34,6 @@ nav:
   - More Use Cases: examples/more-use-cases.md
 - Contributing: contributing.md
 - License: license.md
-- License: license.md
 markdown_extensions:
 - admonition
 - codehilite
