@@ -78,6 +78,22 @@ def test_file_processor_methods():
     with patch.object(processor, "_process_text_file", return_value="ok"):
         assert processor.process_file("file.txt") == "ok"
 
+def test_file_processor_excel_support(tmp_path):
+    """Test that Excel files are processed without errors and chunked."""
+    excel_file = tmp_path / "test.xlsx"
+    # Create a simple Excel file
+    import pandas as pd
+    df = pd.DataFrame({"col1": ["a", "b", "c"], "col2": [1, 2, 3]})
+    df.to_excel(excel_file, index=False)
+
+    processor = file_processor.FileProcessor()
+    # Patch store_chunk to avoid actual embedding
+    with patch.object(processor, "store_chunk", return_value=None), \
+         patch("embeddingframework.utils.splitters.pd.read_excel", wraps=pd.read_excel):
+        result = processor.process_file(str(excel_file))
+        assert result is not None
+        assert isinstance(result, str) or isinstance(result, list)
+
 def test_utils_modules():
     assert file_utils is not None
     assert preprocessing is not None

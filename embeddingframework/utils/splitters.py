@@ -3,6 +3,7 @@ from typing import List
 from PyPDF2 import PdfReader
 import docx
 import csv
+import pandas as pd
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
@@ -36,6 +37,20 @@ def split_csv_file(file_path: str, chunk_size: int) -> List[str]:
     text = "\n".join(rows)
     return [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
 
+def split_excel_file(file_path: str, chunk_size: int) -> List[str]:
+    """Read Excel file and split rows into chunks of text."""
+    try:
+        df = pd.read_excel(file_path, sheet_name=None)  # Read all sheets
+        rows = []
+        for sheet_name, sheet_df in df.items():
+            for _, row in sheet_df.iterrows():
+                rows.append(", ".join(map(str, row.values)))
+        text = "\n".join(rows)
+        return [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
+    except Exception as e:
+        logging.error(f"Failed to process Excel file {file_path}: {e}")
+        return []
+
 def split_file_by_type(file_path: str, chunk_size: int) -> List[str]:
     """Determine file type and use appropriate splitting method."""
     if file_path.lower().endswith('.pdf'):
@@ -44,5 +59,7 @@ def split_file_by_type(file_path: str, chunk_size: int) -> List[str]:
         return split_docx_file(file_path, chunk_size)
     elif file_path.lower().endswith('.csv'):
         return split_csv_file(file_path, chunk_size)
+    elif file_path.lower().endswith(('.xls', '.xlsx')):
+        return split_excel_file(file_path, chunk_size)
     else:
         return split_text_file(file_path, chunk_size)

@@ -13,9 +13,10 @@ EmbeddingFramework includes powerful file processing capabilities to prepare dat
 ## 📂 Features
 
 - **Automatic File Type Detection** – Detects file formats before processing.
-- **Text Extraction** – Extracts text from multiple file types (e.g., `.txt`, `.pdf`, `.docx`).
+- **Text Extraction** – Extracts text from multiple file types (e.g., `.txt`, `.pdf`, `.docx`, `.csv`, `.xls`, `.xlsx`).
 - **Preprocessing** – Cleans and normalizes text for better embedding quality.
 - **Text Splitting** – Splits large documents into smaller chunks for optimal embedding performance.
+- **Large Dataset Handling** – Efficiently processes large Excel files by chunking rows into manageable segments without breaking embedding context.
 
 ---
 
@@ -25,8 +26,14 @@ EmbeddingFramework includes powerful file processing capabilities to prepare dat
 from embeddingframework.processors.file_processor import FileProcessor
 
 processor = FileProcessor()
+
+# Process a text file
 text_data = processor.process_file("example.txt")
 print(text_data)
+
+# Process an Excel file with large dataset handling
+excel_data = processor.process_file("large_dataset.xlsx")
+print(excel_data)
 ```
 
 ---

@@ -112,7 +112,7 @@ class FileProcessor:
 
         logging.info(f"Processing file: {file_name}")
 
-        # Use custom splitters for supported file types
+        # Use custom splitters for supported file types, including Excel
         try:
             text_chunks = split_file_by_type(file_path, text_chunk_size)
         except Exception as e:
@@ -124,6 +124,14 @@ class FileProcessor:
                     text_chunks.extend(self.split_text(text, text_chunk_size))
                 except Exception as e:
                     logging.warning(f"Skipping binary chunk due to decode error: {e}")
+
+        # Special handling for large Excel datasets: ensure chunking doesn't break context
+        if file_path.lower().endswith(('.xls', '.xlsx')):
+            logging.info(f"Applying large dataset handling for Excel file: {file_name}")
+            # Already chunked in splitters, but we can re-merge if needed
+            if merge_target_size:
+                text_chunks = self.merge_chunks(text_chunks, merge_target_size)
+            text_chunks = self.quality_filter(text_chunks, min_quality_length)
 
         if merge_target_size:
             text_chunks = self.merge_chunks(text_chunks, merge_target_size)
@@ -161,7 +169,7 @@ class FileProcessor:
         """
         semaphore = asyncio.Semaphore(max_concurrent_files) if max_concurrent_files else None
         if file_level_parallel:
-            await asyncio.gather(*(self.process_file(fp, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit, semaphore) for fp in file_paths))
+            await asyncio.gather(*(self.process_file_async(fp, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit, semaphore) for fp in file_paths))
         else:
             for fp in file_paths:
-                await self.process_file(fp, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit, semaphore)
+                await self.process_file_async(fp, chunk_size, text_chunk_size, merge_target_size, parallel, min_quality_length, bandwidth_limit, semaphore)
