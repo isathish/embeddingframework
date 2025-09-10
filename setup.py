@@ -15,7 +15,8 @@ setup(
         "asyncio",
         "argparse",
         "pytest",
-        "pytest-cov"
+        "pytest-cov",
+        "chromadb"
     ],
     entry_points={
         "console_scripts": [
