@@ -21,7 +21,8 @@ setup(
         "pymilvus",
         "openai",
         "weaviate-client",
-        "PyPDF2"
+        "PyPDF2",
+        "python-docx"
     ],
     entry_points={
         "console_scripts": [
