@@ -16,7 +16,8 @@ setup(
         "argparse",
         "pytest",
         "pytest-cov",
-        "chromadb"
+        "chromadb",
+        "faiss-cpu"
     ],
     entry_points={
         "console_scripts": [
