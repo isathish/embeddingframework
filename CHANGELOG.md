@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [v1.0.8](https://github.com/isathish/embeddingframework/releases/tag/v1.0.8) - 2025-09-10
+
+<small>[Compare with v1.0.7](https://github.com/isathish/embeddingframework/compare/v1.0.7...v1.0.8)</small>
+
+### Added
+
+- Add cloud storage and Excel dependencies to setup.py ([13c8390](https://github.com/isathish/embeddingframework/commit/13c8390ce1ae394fba6064ae8980a75cb393c663) by isathish).
+- Add python-docx to setup.py install requirements ([2775d1f](https://github.com/isathish/embeddingframework/commit/2775d1f1d80e8ba1df2fb7d1b8f309c3f4f5c232) by isathish).
+- Add PyPDF2 to setup.py install requirements for PDF support ([6b3fc56](https://github.com/isathish/embeddingframework/commit/6b3fc56775918d6bb047f2f008ca685dce46ccca) by isathish).
+- Add weaviate-client to setup.py dependencies for vector DB support ([5319cd6](https://github.com/isathish/embeddingframework/commit/5319cd64484998179b1c00bc5cf93e2bd20d89a9) by isathish).
+- Add openai to setup.py install_requires for API integration ([cd784a5](https://github.com/isathish/embeddingframework/commit/cd784a5e33bdd3f605f3d34025f11078e3b9673d) by isathish).
+- Add pymilvus to setup.py install requirements for Milvus support ([0545b6b](https://github.com/isathish/embeddingframework/commit/0545b6be47d252168f69f63396ccb34bc327b6d0) by isathish).
+- Add faiss-cpu to setup.py install_requires for vector search support ([00cfd98](https://github.com/isathish/embeddingframework/commit/00cfd98ea19acdb486a62970c20bdd572ecd0cf8) by isathish).
+- Add chromadb to setup.py install requirements ([c2204a5](https://github.com/isathish/embeddingframework/commit/c2204a509da65a878d5ab4ad282112c25b22fe69) by isathish).
+- Add Excel file support with large dataset handling in processor ([04b3840](https://github.com/isathish/embeddingframework/commit/04b38402f1ced17fbcff85fdaac545a43b697205) by isathish).
+
 ## [v1.0.7](https://github.com/isathish/embeddingframework/releases/tag/v1.0.7) - 2025-08-29
 
 <small>[Compare with v1.0.6](https://github.com/isathish/embeddingframework/compare/v1.0.6...v1.0.7)</small>
