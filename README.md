@@ -62,9 +62,10 @@ Designed for **AI, NLP, and semantic search** applications, EmbeddingFramework p
 
 ### 🔹 **File Processing & Preprocessing**
 - Automatic file type detection.
-- Text extraction from multiple formats.
+- Text extraction from multiple formats including `.txt`, `.pdf`, `.docx`, `.csv`, `.xls`, `.xlsx`.
 - Preprocessing utilities for cleaning and normalizing text.
 - Intelligent text splitting for optimal embedding performance.
+- Large dataset handling for Excel files with efficient chunking to preserve embedding context.
 
 ### 🔹 **Utilities**
 - Retry logic for robust API calls.
@@ -242,16 +243,60 @@ embeddings = provider.embed_texts(["Hello", "World"])
 ---
 
 ### 6️⃣ File Processing
-- Automatic file type detection
-- Text extraction from PDF, DOCX, TXT
-- Preprocessing utilities for cleaning text
-- Intelligent text splitting
+EmbeddingFramework provides a robust and extensible file processing pipeline that can handle a wide variety of file formats and sizes. This includes:
 
-Example:
+- **Automatic File Type Detection** – The framework automatically determines the file type and routes it to the appropriate parser.
+- **Text Extraction** – Supports extracting text from:
+  - `.txt` – Plain text files
+  - `.pdf` – PDF documents
+  - `.docx` – Microsoft Word documents
+  - `.csv` – Comma-separated values
+  - `.xls` / `.xlsx` – Microsoft Excel spreadsheets (including multi-sheet workbooks)
+- **Preprocessing Utilities** – Cleans and normalizes extracted text for better embedding quality (e.g., removing stopwords, normalizing whitespace).
+- **Intelligent Text Splitting** – Splits large documents into smaller, context-friendly chunks for optimal embedding performance.
+- **Large Dataset Handling for Excel** – Efficiently processes large Excel files by:
+  - Reading all sheets in the workbook.
+  - Converting each row into a string representation.
+  - Chunking rows into manageable segments to avoid exceeding embedding context limits.
+  - Applying quality filters to remove empty or low-value chunks.
+
+This design ensures that even massive datasets can be processed without memory overload or loss of semantic context.
+
+**Example:**
 ```python
 from embeddingframework.processors.file_processor import FileProcessor
+
 processor = FileProcessor()
-text = processor.process_file("document.pdf")
+
+# Process a PDF
+pdf_text = processor.process_file("document.pdf")
+
+# Process a large Excel file with multiple sheets
+excel_text = processor.process_file("large_dataset.xlsx")
+
+# Process a CSV file
+csv_text = processor.process_file("data.csv")
+
+# Process a DOCX file
+docx_text = processor.process_file("report.docx")
+```
+
+**Advanced Usage:**
+```python
+# Asynchronous processing with custom chunk sizes and quality filters
+import asyncio
+
+async def process_files():
+    await processor.process_file_async(
+        "large_dataset.xlsx",
+        chunk_size=2000,
+        text_chunk_size=1000,
+        merge_target_size=3000,
+        parallel=True,
+        min_quality_length=50
+    )
+
+asyncio.run(process_files())
 ```
 
 ---
