@@ -19,7 +19,8 @@ setup(
         "chromadb",
         "faiss-cpu",
         "pymilvus",
-        "openai"
+        "openai",
+        "weaviate-client"
     ],
     entry_points={
         "console_scripts": [
