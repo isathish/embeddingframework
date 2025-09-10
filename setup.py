@@ -22,7 +22,11 @@ setup(
         "openai",
         "weaviate-client",
         "PyPDF2",
-        "python-docx"
+        "python-docx",
+        "boto3",
+        "google-cloud-storage",
+        "azure-storage-blob",
+        "openpyxl"
     ],
     entry_points={
         "console_scripts": [
