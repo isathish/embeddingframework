@@ -17,7 +17,8 @@ setup(
         "pytest",
         "pytest-cov",
         "chromadb",
-        "faiss-cpu"
+        "faiss-cpu",
+        "pymilvus"
     ],
     entry_points={
         "console_scripts": [
