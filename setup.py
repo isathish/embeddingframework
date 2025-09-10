@@ -20,7 +20,8 @@ setup(
         "faiss-cpu",
         "pymilvus",
         "openai",
-        "weaviate-client"
+        "weaviate-client",
+        "PyPDF2"
     ],
     entry_points={
         "console_scripts": [
