@@ -18,7 +18,8 @@ setup(
         "pytest-cov",
         "chromadb",
         "faiss-cpu",
-        "pymilvus"
+        "pymilvus",
+        "openai"
     ],
     entry_points={
         "console_scripts": [
